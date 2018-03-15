@@ -10,4 +10,5 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/Mattwhooo/AppiumConnect'
   s.license       = 'MIT'
   s.executables   = ["AppiumConnect"]
+  s.add_development_dependency "parallel"
 end
