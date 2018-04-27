@@ -14,7 +14,7 @@ def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, platf
 
   f.write( JSON.generate({ capabilities: [
                             { udid: udid,
-                              browserName: "#{brand.capitalize} #{model}",
+                              browserName: set_browser_name(brand, model),
                               maxInstances: 1,
                               platform: platform,
                               deviceName: model,
@@ -41,4 +41,10 @@ end
 
 def create_dir(name)
   FileUtils::mkdir_p name
+end
+
+def set_browser_name(brand, model)
+  manu = brand.capitalize
+  name = manu + "_" + model
+  name.gsub(" ", "_")
 end
