@@ -9,7 +9,7 @@ def get_platform()
   end
 end
 
-def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, platform, browser, os_ver, build, model, brand)
+def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, platform, browser, os_ver, build, model, brand, number)
   f = File.new(nodeDir + "/node_configs/#{file_name}", "w")
 
   f.write( JSON.generate({ capabilities: [
@@ -20,7 +20,9 @@ def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, platf
                               deviceName: model,
                               applicationName: model,
                               platformName: platform,
-                              version: os_ver
+                              version: os_ver,
+                              buildVersion: build,
+                              phoneNumber: number
                             },
   ],
 
