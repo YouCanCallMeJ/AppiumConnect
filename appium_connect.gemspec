@@ -11,6 +11,6 @@ Gem::Specification.new do |s|
   s.license       = 'MIT'
   s.executables   = ["AppiumConnect"]
   s.add_development_dependency 'pry', '~> 0'
-  s.add_runtime_dependency 'parallel', '~> 0'
+  s.add_runtime_dependency 'parallel', '~> 1.10'
   s.add_runtime_dependency 'device_api-ios', '~> 1.1', '>= 1.1.0'
 end
