@@ -36,7 +36,8 @@ def restart_devices
 end
 
 def get_device_phone_number(udid)
- result = `adb -s #{udid} shell service call iphonesubinfo 19`
- number = result.split[7].delete(" .+'") + result.split[13].delete(" .+)'")
- number[1..-1]
+`adb -s #{udid} shell service call iphonesubinfo 19`
+  .split("\n").join.split("'")
+  .collect{|x| x if x.include?('.')}.compact
+  .join.delete('.+')[1..-1]
 end
