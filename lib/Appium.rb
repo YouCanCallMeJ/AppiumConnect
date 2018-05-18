@@ -51,6 +51,8 @@ def connect_android_devices(ip, hubIp, nodeDir, devices)
 
       new_index = index
       port = 4000 + new_index
+      bp = 2250 + new_index
+      cp = 6000 + new_index
       result = false
 
       while result == false
@@ -59,12 +61,11 @@ def connect_android_devices(ip, hubIp, nodeDir, devices)
         else
           new_index += 1
           port = 4000 + new_index
+          bp = 2250 + new_index
+          cp = 6000 + new_index
         end
       end
 
-      bp = 2250 + new_index
-      sdp = 5000 + new_index
-      cp = 6000 + new_index
       sdkv = get_device_osv(devices[index]['udid']).strip.to_i
       os_ver = get_android_version(devices[index]['udid']).strip
       build = get_device_build(devices[index]['udid']).strip
@@ -86,17 +87,18 @@ def connect_ios_devices(ip, hubIp, nodeDir, devices)
     unless File.exist?(node_config)
       new_index = index
       port = 4000 + new_index
+      webkitPort = 27753 + new_index
       result = false
 
       while result == false
-        if is_port_open?('localhost', port)
+        if ios_ports_are_open(port, webkitPort)
           result = true
         else
           new_index += 1
           port = 4000 + new_index
+          webkitPort = 27753 + new_index
         end
       end
-      webkitPort = 27753 + index
       config_name = "#{udid}.json"
       details = get_ios_details(udid)
       next if details.nil?
@@ -109,6 +111,17 @@ def connect_ios_devices(ip, hubIp, nodeDir, devices)
       appium_server_start config: node_config, port: port, udid: udid, log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"], webkitPort: webkitPort, config_dir: nodeDir
     end
   end
+end
+
+def ios_ports_are_open(port, wb)
+  is_port_open?('localhost', port) &&
+    is_port_open?('localhost', wb)
+end
+
+def android_ports_are_open(port, bp, cp)
+  is_port_open?('localhost', port) &&
+    is_port_open?('localhost', bp) &&
+    is_port_open?('localhost', cp)
 end
 
 def is_port_open?(ip, port)
