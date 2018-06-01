@@ -20,9 +20,7 @@ def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, platf
                               deviceName: set_browser_name(brand, model),
                               applicationName: model,
                               platformName: platform,
-                              version: os_ver,
-                              buildVersion: build,
-                              phoneNumber: number
+                              version: os_ver
                             },
                             { browserName: browser,
                               maxInstances: 1,
