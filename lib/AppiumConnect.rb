@@ -23,10 +23,33 @@ def shortname long_name
 end
 
 input_array = ARGV
+ip = 'localhost'
+hub = 'localhost'
+hub_port = '4444'
+
+if input_array.include? '-ip'
+  ip = input_array[input_array.index("-ip") + 1]
+end
+
+if input_array.include? '-hub'
+  hub = input_array[input_array.index("-hub") + 1]
+  hub_orig = hub
+  if hub.count(':') == 2
+    hub = hub_orig.rpartition(':').first
+    hub_port = hub_orig.rpartition(':').last
+  elsif hub.count(':') == 1 && !hub.include?('http')
+    hub = hub_orig.split(':').first
+    hub_port = hub_orig.split(':').last
+  end
+
+  if hub_port.count("a-zA-Z") > 0
+    raise 'Your ports must include numbers only'
+  end
+end
+
 if input_array.include? '--restart'
   restart_devices
 else
-
   platform = get_platform()
   if platform == :linux
     nodeConfigDir = File.expand_path('~/AppiumConnect/')
@@ -40,6 +63,7 @@ else
   create_dir nodeConfigDir + '/node_configs'
   create_dir nodeConfigDir + '/output'
 
-  launch_hub_and_nodes 'localhost', 'localhost', nodeConfigDir
+  launch_hub_and_nodes ip, hub, hub_port, nodeConfigDir
 end
+
 

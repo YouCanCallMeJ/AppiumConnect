@@ -9,7 +9,7 @@ def get_platform()
   end
 end
 
-def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, platform, browser, os_ver, build, model, brand, number)
+def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, hubPort, platform, browser, os_ver, build, model, brand, number)
   f = File.new(nodeDir + "/node_configs/#{file_name}", "w")
 
   f.write( JSON.generate({ capabilities: [
@@ -40,7 +40,7 @@ def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, platf
                    port: appium_port,
                    maxSession: 1,
                    register: true,
-                   hubPort: 4444,
+                   hubPort: hubPort,
                    hubHost: hubIp } } ) )
   f.close
 end
