@@ -32,7 +32,11 @@ def appium_server_start(**options)
   }
 end
 
-def launch_hub_and_nodes(ip, hubIp, hubPort, nodeDir)
+def launch_hub_and_nodes(ip, hubIp, hubPort, container, nodeDir)
+  if container != false
+    ip = container
+  end
+
   if Gem::Platform.local.os == 'darwin'
     ios_devices = JSON.parse(get_ios_devices)
     connect_ios_devices(ip, hubIp, hubPort, nodeDir, ios_devices)
