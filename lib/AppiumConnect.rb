@@ -25,10 +25,15 @@ end
 input_array = ARGV
 ip = 'localhost'
 hub = 'localhost'
+container = false
 hub_port = '4444'
 
 if input_array.include? '-ip'
   ip = input_array[input_array.index("-ip") + 1]
+end
+
+if input_array.include? '-container'
+  container = input_array[input_array.index("-container") + 1]
 end
 
 if input_array.include? '-hub'
@@ -63,7 +68,7 @@ else
   create_dir nodeConfigDir + '/node_configs'
   create_dir nodeConfigDir + '/output'
 
-  launch_hub_and_nodes ip, hub, hub_port, nodeConfigDir
+  launch_hub_and_nodes ip, hub, hub_port, container, nodeConfigDir
 end
 
 
