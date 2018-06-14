@@ -60,7 +60,7 @@ def connect_android_devices(ip, hubIp, hubPort, nodeDir, devices)
       result = false
 
       while result == false
-        if android_ports_are_open(port, bp, cp)
+        if android_ports_are_open(ip, port, bp, cp)
           result = true
         else
           new_index += 1
@@ -95,7 +95,7 @@ def connect_ios_devices(ip, hubIp, hubPort, nodeDir, devices)
       result = false
 
       while result == false
-        if ios_ports_are_open(port, webkitPort)
+        if ios_ports_are_open(ip, port, webkitPort)
           result = true
         else
           new_index += 1
@@ -117,15 +117,15 @@ def connect_ios_devices(ip, hubIp, hubPort, nodeDir, devices)
   end
 end
 
-def ios_ports_are_open(port, wb)
-  is_port_open?('localhost', port) &&
-    is_port_open?('localhost', wb)
+def ios_ports_are_open(ip, port, wb)
+  is_port_open?(ip, port) &&
+    is_port_open?(ip, wb)
 end
 
-def android_ports_are_open(port, bp, cp)
-  is_port_open?('localhost', port) &&
-    is_port_open?('localhost', bp) &&
-    is_port_open?('localhost', cp)
+def android_ports_are_open(ip, port, bp, cp)
+  is_port_open?(ip, port) &&
+    is_port_open?(ip, bp) &&
+    is_port_open?(ip, cp)
 end
 
 def is_port_open?(ip, port)
