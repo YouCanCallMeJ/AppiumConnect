@@ -56,7 +56,7 @@ def connect_android_devices(ip, hubIp, hubPort, nodeDir, devices)
       result = false
 
       while result == false
-        if is_port_open?('localhost', port)
+        if android_ports_are_open(port, bp, cp)
           result = true
         else
           new_index += 1
