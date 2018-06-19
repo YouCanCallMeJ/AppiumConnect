@@ -23,6 +23,7 @@ def appium_server_start(**options)
   command << " --webkit-debug-proxy-port #{options[:webkitPort]}" if options.key?(:webkitPort)
   command << " --tmp /tmp/#{options[:tmp]}" if options.key?(:tmp)
   command << " --chromedriver-port #{options[:cp]}" if options.key?(:cp)
+  command << " --relaxed-security"
   Dir.chdir('.') {
     Thread.new do
       system(command)
