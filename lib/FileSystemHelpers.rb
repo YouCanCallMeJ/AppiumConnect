@@ -34,7 +34,7 @@ def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, hubPo
                    timeout: 299000,
                    registerCycle: 5000,
                    proxy: "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
-                   custom: { "phoneNumber": number, "buildNumber": build },
+                   custom: { "phoneNumber": number, "buildNumber": build, "deviceType": "mobile" },
                    url: "http://#{ip}:#{appium_port}/wd/hub",
                    host: ip,
                    port: appium_port,
