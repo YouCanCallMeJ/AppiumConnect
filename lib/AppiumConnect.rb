@@ -23,21 +23,19 @@ def shortname long_name
 end
 
 input_array = ARGV
-ip = 'localhost'
-hub = 'localhost'
-container = false
+ip = '127.0.0.1'
+hub = '127.0.0.1'
 hub_port = '4444'
 
-if input_array.include? '-ip'
-  ip = input_array[input_array.index("-ip") + 1]
+ip_position = input_array.index('-ip') || nil
+hub_position = input_array.index((input_array & ['-h', '--hub']).first) || nil
+
+if ip_position
+  ip = input_array[ip_position) + 1]
 end
 
-if input_array.include? '-container'
-  container = input_array[input_array.index("-container") + 1]
-end
-
-if input_array.include? '-hub'
-  hub = input_array[input_array.index("-hub") + 1]
+if hub_position
+  hub = input_array[hub_position + 1]
   hub_orig = hub
   if hub.count(':') == 2
     hub = hub_orig.rpartition(':').first
@@ -68,7 +66,7 @@ else
   create_dir nodeConfigDir + '/node_configs'
   create_dir nodeConfigDir + '/output'
 
-  launch_hub_and_nodes ip, hub, hub_port, container, nodeConfigDir
+  launch_hub_and_nodes ip, hub, hub_port, nodeConfigDir
 end
 
 
