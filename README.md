@@ -3,7 +3,7 @@ AppiumConnect simplifies the proccess of creating connecting mobile devices to S
 will scan connected usb devices for Android or iOS phones and tablets and automatically create the necessary node configs
 to register with the grid.
 
-#Install
+## Install
 If on mac use libimobile `brew install libimobiledevice`
 AppiumConnect is available to install from RubyGems.
 ```ruby
