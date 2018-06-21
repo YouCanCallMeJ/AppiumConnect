@@ -31,7 +31,7 @@ ip_position = input_array.index('-ip') || nil
 hub_position = input_array.index((input_array & ['-h', '--hub']).first) || nil
 
 if ip_position
-  ip = input_array[ip_position) + 1]
+  ip = input_array[ip_position + 1]
 end
 
 if hub_position
