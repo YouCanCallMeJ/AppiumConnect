@@ -58,7 +58,7 @@ def connect_android_devices(ip, hubIp, hubPort, nodeDir, devices)
       result = false
 
       while result == false
-        if android_ports_are_open(ip, port, bp, cp)
+        if android_ports_are_open(port, bp, cp)
           result = true
         else
           new_index += 1
@@ -93,7 +93,7 @@ def connect_ios_devices(ip, hubIp, hubPort, nodeDir, devices)
       result = false
 
       while result == false
-        if ios_ports_are_open(ip, port, webkitPort)
+        if ios_ports_are_open(port, webkitPort)
           result = true
         else
           new_index += 1
@@ -115,22 +115,22 @@ def connect_ios_devices(ip, hubIp, hubPort, nodeDir, devices)
   end
 end
 
-def ios_ports_are_open(ip, port, wb)
-  is_port_open?(ip, port) &&
-    is_port_open?(ip, wb)
+def ios_ports_are_open(port, wb)
+  is_port_open?(port) &&
+    is_port_open?(wb)
 end
 
-def android_ports_are_open(ip, port, bp, cp)
-  is_port_open?(ip, port) &&
-    is_port_open?(ip, bp) &&
-    is_port_open?(ip, cp)
+def android_ports_are_open(port, bp, cp)
+  is_port_open?(port) &&
+    is_port_open?(bp) &&
+    is_port_open?(cp)
 end
 
-def is_port_open?(ip, port)
+def is_port_open?(port)
   begin
     Timeout.timeout(2) do
       begin
-        TCPSocket.new(ip, port)
+        TCPSocket.new('127.0.0.1', port)
         return false
       rescue Errno::ENETUNREACH, Errno::ECONNREFUSED
         retry
