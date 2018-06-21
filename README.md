@@ -4,6 +4,7 @@ will scan connected usb devices for Android or iOS phones and tablets and automa
 to register with the grid.
 
 #Install
+If on mac use libimobile `brew install libimobiledevice`
 AppiumConnect is available to install from RubyGems.
 ```ruby
 gem install appium_connect
