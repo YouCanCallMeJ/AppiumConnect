@@ -68,5 +68,3 @@ else
 
   launch_hub_and_nodes ip, hub, hub_port, nodeConfigDir
 end
-
-
