@@ -23,16 +23,11 @@ def shortname long_name
 end
 
 input_array = ARGV
-ip = '127.0.0.1'
+ip = ENV['IP'] || '127.0.0.1'
 hub = '127.0.0.1'
 hub_port = '4444'
 
-ip_position = input_array.index('-ip') || nil
 hub_position = input_array.index((input_array & ['-h', '--hub']).first) || nil
-
-if ip_position
-  ip = input_array[ip_position + 1]
-end
 
 if hub_position
   hub = input_array[hub_position + 1]
