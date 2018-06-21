@@ -33,21 +33,18 @@ def appium_server_start(**options)
   }
 end
 
-def launch_hub_and_nodes(ip, hubIp, hubPort, container, nodeDir)
-  if container == false
-    container = ip
-  end
-
+def launch_hub_and_nodes(ip, hubIp, hubPort, nodeDir)
+  
   if Gem::Platform.local.os == 'darwin'
     ios_devices = JSON.parse(get_ios_devices)
-    connect_ios_devices(ip, hubIp, hubPort, nodeDir, ios_devices, container)
+    connect_ios_devices(ip, hubIp, hubPort, nodeDir, ios_devices)
   end
 
   android_devices = JSON.parse(get_android_devices)
-  connect_android_devices(ip, hubIp, hubPort, nodeDir, android_devices, container)
+  connect_android_devices(ip, hubIp, hubPort, nodeDir, android_devices)
 end
 
-def connect_android_devices(ip, hubIp, hubPort, nodeDir, devices, container)
+def connect_android_devices(ip, hubIp, hubPort, nodeDir, devices)
   devices.size.times do |index|
     config_name = "#{devices[index]["udid"]}.json"
     node_config = nodeDir + '/node_configs/' +"#{config_name}"
@@ -61,7 +58,7 @@ def connect_android_devices(ip, hubIp, hubPort, nodeDir, devices, container)
       result = false
 
       while result == false
-        if android_ports_are_open(container, port, bp, cp)
+        if android_ports_are_open(ip, port, bp, cp)
           result = true
         else
           new_index += 1
@@ -83,7 +80,7 @@ def connect_android_devices(ip, hubIp, hubPort, nodeDir, devices, container)
   end
 end
 
-def connect_ios_devices(ip, hubIp, hubPort, nodeDir, devices, container)
+def connect_ios_devices(ip, hubIp, hubPort, nodeDir, devices)
   devices.size.times do |index|
     udid = devices[index]["udid"]
     config_name = "#{udid}.json"
@@ -96,7 +93,7 @@ def connect_ios_devices(ip, hubIp, hubPort, nodeDir, devices, container)
       result = false
 
       while result == false
-        if ios_ports_are_open(container, port, webkitPort)
+        if ios_ports_are_open(ip, port, webkitPort)
           result = true
         else
           new_index += 1
