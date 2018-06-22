@@ -127,10 +127,11 @@ def android_ports_are_open(port, bp, cp)
 end
 
 def is_port_open?(port)
+  local_ip = `ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | grep -v '172.17.0.1'`
   begin
     Timeout.timeout(2) do
       begin
-        TCPSocket.new('127.0.0.1', port)
+        TCPSocket.new(local_ip, port)
         return false
       rescue Errno::ENETUNREACH, Errno::ECONNREFUSED
         retry
