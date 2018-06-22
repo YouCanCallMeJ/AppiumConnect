@@ -23,7 +23,7 @@ def shortname long_name
 end
 
 input_array = ARGV
-ip = ENV['IP'] || '127.0.0.1'
+ip = ENV['IP'] || ` ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | grep -v '172.17.0.1'`
 hub = '127.0.0.1'
 hub_port = '4444'
 
@@ -63,3 +63,4 @@ else
 
   launch_hub_and_nodes ip, hub, hub_port, nodeConfigDir
 end
+
