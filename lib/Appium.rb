@@ -1,6 +1,8 @@
 require 'socket'
 require 'timeout'
 
+require_relative 'ip'
+
 platform = get_platform()
 if platform == :windows
   require 'Win32API'
@@ -34,7 +36,7 @@ def appium_server_start(**options)
 end
 
 def launch_hub_and_nodes(ip, hubIp, hubPort, nodeDir)
-  
+
   if Gem::Platform.local.os == 'darwin'
     ios_devices = JSON.parse(get_ios_devices)
     connect_ios_devices(ip, hubIp, hubPort, nodeDir, ios_devices)
@@ -127,11 +129,10 @@ def android_ports_are_open(port, bp, cp)
 end
 
 def is_port_open?(port)
-  local_ip = `ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | grep -v '172.17.0.1'`
   begin
     Timeout.timeout(2) do
       begin
-        TCPSocket.new(local_ip, port)
+        TCPSocket.new(Ip.host_ip, port)
         return false
       rescue Errno::ENETUNREACH, Errno::ECONNREFUSED
         retry
