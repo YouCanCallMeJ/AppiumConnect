@@ -9,6 +9,7 @@ require_relative 'FileSystemHelpers'
 require_relative 'Android'
 require_relative 'Appium'
 require_relative 'iOS.rb'
+require_relative 'ip'
 
 platform = get_platform()
 if platform == :windows
@@ -23,7 +24,7 @@ def shortname long_name
 end
 
 input_array = ARGV
-ip = ENV['IP'] || ` ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | grep -v '172.17.0.1'`
+ip = ENV['IP'] || Ip.host_ip
 hub = '127.0.0.1'
 hub_port = '4444'
 
@@ -63,4 +64,3 @@ else
 
   launch_hub_and_nodes ip, hub, hub_port, nodeConfigDir
 end
-
