@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.description = "Looks for USB Connected devices and registers them as Appium Nodes on Selenium Grid"
   s.authors     = ["Matt Watson"]
   s.email       = 'Watson.Mattc@gmail.com'
-  s.files       = ["lib/AppiumConnect.rb", 'lib/FileSystemHelpers.rb', 'lib/Android.rb', 'lib/iOS.rb', 'lib/Appium.rb']
+  s.files       = ["lib/AppiumConnect.rb", 'lib/FileSystemHelpers.rb', 'lib/Android.rb', 'lib/iOS.rb', 'lib/Appium.rb', 'lib/ip.rb']
   s.homepage    = 'https://github.com/Mattwhooo/AppiumConnect'
   s.license       = 'MIT'
   s.executables   = ["AppiumConnect"]
