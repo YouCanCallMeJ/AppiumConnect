@@ -36,9 +36,17 @@ def restart_devices
 end
 
 def get_device_phone_number(udid)
-  cmd = get_device_brand(udid).strip == 'google' ? 12 : 19
+  brand = get_device_brand(udid).strip
+  cmd = case brand
+        when 'google'
+          12
+        when 'blackberry'
+          13
+        else
+          19
+        end
   `adb -s #{udid} shell service call iphonesubinfo #{cmd}`
     .split("\n").join.split("'")
     .collect{|x| x if x.include?('.')}.compact
-    .join.delete('.+')[1..-1]
+    .join.delete('.+')[1..-1].strip
 end
