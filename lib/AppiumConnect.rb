@@ -17,10 +17,8 @@ if platform == :windows
 end
 
 def shortname long_name
-  max_path = 1024
-  short_name = " " * max_path
-  lfn_size = Win32API.new("kernel32", "GetShortPathName", ['P','P','L'],'L').call(long_name, short_name, max_path)
-  return short_name[0..lfn_size-1]
+  return '/c' + long_name[2..-1] if long_name[0..1] == 'C:'
+  long_name
 end
 
 input_array = ARGV
