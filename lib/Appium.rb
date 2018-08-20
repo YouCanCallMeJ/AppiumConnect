@@ -26,27 +26,34 @@ def appium_server_start(**options)
   command << " --tmp /tmp/#{options[:tmp]}" if options.key?(:tmp)
   command << " --chromedriver-port #{options[:cp]}" if options.key?(:cp)
   command << " --relaxed-security"
+
   Dir.chdir('.') {
-    Thread.new do
+    if options[:foreground] == true
       system(command)
+      puts 'Waiting for Appium to start up...'
+      sleep 5
+    else
+      Thread.new do
+        system(command)
+      end
+      puts 'Waiting for Appium to start up...'
+      sleep 5
     end
-    puts 'Waiting for Appium to start up...'
-    sleep 5
   }
 end
 
-def launch_hub_and_nodes(ip, hubIp, hubPort, nodeDir)
+def launch_hub_and_nodes(ip, hubIp, hubPort, foreground, nodeDir)
 
   if Gem::Platform.local.os == 'darwin'
     ios_devices = JSON.parse(get_ios_devices)
-    connect_ios_devices(ip, hubIp, hubPort, nodeDir, ios_devices)
+    connect_ios_devices(ip, hubIp, hubPort, nodeDir, ios_devices, foreground)
   end
 
   android_devices = JSON.parse(get_android_devices)
-  connect_android_devices(ip, hubIp, hubPort, nodeDir, android_devices)
+  connect_android_devices(ip, hubIp, hubPort, nodeDir, android_devices, foreground)
 end
 
-def connect_android_devices(ip, hubIp, hubPort, nodeDir, devices)
+def connect_android_devices(ip, hubIp, hubPort, nodeDir, devices, foreground)
   devices.size.times do |index|
     config_name = "#{devices[index]["udid"]}.json"
     node_config = nodeDir + '/node_configs/' +"#{config_name}"
@@ -77,12 +84,12 @@ def connect_android_devices(ip, hubIp, hubPort, nodeDir, devices)
       brand = get_device_brand(devices[index]['udid']).strip
       number = get_device_phone_number(devices[index]['udid'])
       generate_node_config(nodeDir, config_name, devices[index]["udid"], port, ip, hubIp, hubPort, 'android', 'chrome', os_ver, build, model, brand, number)
-      appium_server_start(config: node_config, port: port, bp: bp, udid: devices[index]["udid"], log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"], cp: cp, config_dir: nodeDir)
+      appium_server_start(config: node_config, port: port, bp: bp, udid: devices[index]["udid"], log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"], cp: cp, config_dir: nodeDir, foreground: foreground)
     end
   end
 end
 
-def connect_ios_devices(ip, hubIp, hubPort, nodeDir, devices)
+def connect_ios_devices(ip, hubIp, hubPort, nodeDir, devices, foreground)
   devices.size.times do |index|
     udid = devices[index]["udid"]
     config_name = "#{udid}.json"
@@ -112,7 +119,7 @@ def connect_ios_devices(ip, hubIp, hubPort, nodeDir, devices)
       number = details["number"]
       generate_node_config(nodeDir, config_name, udid, port, ip, hubIp, hubPort, 'IOS', 'safari', os_ver, build, model, 'apple', number)
       node_config = nodeDir + '/node_configs/' +"#{config_name}"
-      appium_server_start config: node_config, port: port, udid: udid, log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"], webkitPort: webkitPort, config_dir: nodeDir
+      appium_server_start config: node_config, port: port, udid: udid, log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"], webkitPort: webkitPort, config_dir: nodeDir, foreground: foreground
     end
   end
 end

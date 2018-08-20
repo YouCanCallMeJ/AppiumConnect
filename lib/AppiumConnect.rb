@@ -28,6 +28,9 @@ hub_port = '4444'
 
 hub_position = input_array.index((input_array & ['-h', '--hub']).first) || nil
 
+foreground_values = ['-f', '--foreground']
+run_foreground = (input_array & foreground_values).any? ? true : false
+
 if hub_position
   hub = input_array[hub_position + 1]
   hub_orig = hub
@@ -60,5 +63,5 @@ else
   create_dir nodeConfigDir + '/node_configs'
   create_dir nodeConfigDir + '/output'
 
-  launch_hub_and_nodes ip, hub, hub_port, nodeConfigDir
+  launch_hub_and_nodes ip, hub, hub_port, run_foreground, nodeConfigDir
 end
