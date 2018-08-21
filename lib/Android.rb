@@ -48,5 +48,5 @@ def get_device_phone_number(udid)
   `adb -s #{udid} shell service call iphonesubinfo #{cmd}`
     .split("\n").join.split("'")
     .collect{|x| x if x.include?('.')}.compact
-    .join.delete('.+')[1..-1].strip
+    .join.delete('.+')[1..-1]&.strip
 end
