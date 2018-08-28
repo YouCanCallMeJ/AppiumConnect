@@ -56,7 +56,7 @@ else
   elsif platform == :mac
     nodeConfigDir = File.expand_path('~/AppiumConnect/')
   elsif platform == :windows
-    nodeConfigDir = shortname(Dir.home() + '/AppiumConnect')
+    nodeConfigDir = Dir.home() + '/AppiumConnect'
   end
 
   create_dir nodeConfigDir
