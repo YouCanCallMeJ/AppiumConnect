@@ -23,6 +23,7 @@ end
 
 input_array = ARGV
 ip = ENV['IP'] || Ip.host_ip
+host_port = ip.include?(':') || nil
 hub = '127.0.0.1'
 hub_port = '4444'
 
@@ -63,5 +64,5 @@ else
   create_dir nodeConfigDir + '/node_configs'
   create_dir nodeConfigDir + '/output'
 
-  launch_hub_and_nodes ip, hub, hub_port, run_foreground, nodeConfigDir
+  launch_hub_and_nodes ip, hub, hub_port, run_foreground, nodeConfigDir, host_port
 end
