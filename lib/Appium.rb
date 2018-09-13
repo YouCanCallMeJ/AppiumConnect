@@ -42,18 +42,18 @@ def appium_server_start(**options)
   }
 end
 
-def launch_hub_and_nodes(ip, hubIp, hubPort, foreground, nodeDir)
+def launch_hub_and_nodes(ip, hubIp, hubPort, foreground, nodeDir, host_port)
 
   if Gem::Platform.local.os == 'darwin'
     ios_devices = JSON.parse(get_ios_devices)
-    connect_ios_devices(ip, hubIp, hubPort, nodeDir, ios_devices, foreground)
+    connect_ios_devices(ip, hubIp, hubPort, nodeDir, ios_devices, foreground, host_port)
   end
 
   android_devices = JSON.parse(get_android_devices)
-  connect_android_devices(ip, hubIp, hubPort, nodeDir, android_devices, foreground)
+  connect_android_devices(ip, hubIp, hubPort, nodeDir, android_devices, foreground, host_port)
 end
 
-def connect_android_devices(ip, hubIp, hubPort, nodeDir, devices, foreground)
+def connect_android_devices(ip, hubIp, hubPort, nodeDir, devices, foreground, host_port)
   devices.size.times do |index|
     config_name = "#{devices[index]["udid"]}.json"
     node_config = nodeDir + '/node_configs/' +"#{config_name}"
@@ -61,7 +61,7 @@ def connect_android_devices(ip, hubIp, hubPort, nodeDir, devices, foreground)
     unless File.exist?(node_config)
 
       new_index = index
-      port = 4000 + new_index
+      port = host_port.nil? ? (4000 + new_index) : host_port
       bp = 2250 + new_index
       cp = 6000 + new_index
       result = false
@@ -71,7 +71,7 @@ def connect_android_devices(ip, hubIp, hubPort, nodeDir, devices, foreground)
           result = true
         else
           new_index += 1
-          port = 4000 + new_index
+          port = host_port.nil? ? (4000 + new_index) : host_port
           bp = 2250 + new_index
           cp = 6000 + new_index
         end
@@ -89,7 +89,7 @@ def connect_android_devices(ip, hubIp, hubPort, nodeDir, devices, foreground)
   end
 end
 
-def connect_ios_devices(ip, hubIp, hubPort, nodeDir, devices, foreground)
+def connect_ios_devices(ip, hubIp, hubPort, nodeDir, devices, foreground, host_port)
   devices.size.times do |index|
     udid = devices[index]["udid"]
     config_name = "#{udid}.json"
@@ -97,7 +97,7 @@ def connect_ios_devices(ip, hubIp, hubPort, nodeDir, devices, foreground)
 
     unless File.exist?(node_config)
       new_index = index
-      port = 4000 + new_index
+      port = host_port.nil? ? (4000 + new_index) : host_port
       webkitPort = 27753 + new_index
       result = false
 
@@ -106,7 +106,7 @@ def connect_ios_devices(ip, hubIp, hubPort, nodeDir, devices, foreground)
           result = true
         else
           new_index += 1
-          port = 4000 + new_index
+          port = host_port.nil? ? (4000 + new_index) : host_port
           webkitPort = 27753 + new_index
         end
       end
