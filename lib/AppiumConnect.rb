@@ -24,6 +24,7 @@ end
 input_array = ARGV
 ip = ENV['IP'] || Ip.host_ip
 host_port = ip.include?(':') ? ip.split(':')[-1] : nil
+ip = ip.include?(':') ? ip.split(':')[0] : ip
 hub = '127.0.0.1'
 hub_port = '4444'
 
