@@ -42,6 +42,8 @@ def get_device_phone_number(udid)
           12
         when 'blackberry'
           13
+        when 'huawei'
+          14
         else
           19
         end
