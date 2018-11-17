@@ -17,14 +17,14 @@ def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, hubPo
                               browserName: set_browser_name(brand, model, udid),
                               maxInstances: 1,
                               platform: platform,
-                              deviceName: set_browser_name(brand, model),
+                              deviceName: set_device_name(brand, model),
                               applicationName: model,
                               platformName: platform,
                               version: os_ver
                             },
                             { browserName: browser,
                               maxInstances: 1,
-                              deviceName: set_browser_name(brand, model),
+                              deviceName: set_device_name(brand, model),
                               seleniumProtocol: 'WebDriver',
                               udid: udid,
                               platform: platform,
@@ -55,4 +55,10 @@ def set_browser_name(brand, model, udid)
   name = manu + "_" + model
   name.gsub(" ", "_")
   name + "_" + udid
+end
+
+def set_device_name(brand, model)
+  manu = brand.capitalize
+  name = manu + "_" + model
+  name.gsub(" ", "_")
 end
