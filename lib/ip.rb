@@ -26,6 +26,6 @@ class Ip
             .collect do |i|
               i if !['127.0.0.1', '172.17.0.1'].include?(i) && !i.empty?
             end
-    ips.compact
+    ips.compact.first
   end
 end
