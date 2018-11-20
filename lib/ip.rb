@@ -22,9 +22,10 @@ class Ip
   def self.host_ip_ifconfig
     ips = `ifconfig`.gsub('addr:', 'addr: ')
             .scan(/inet (?:addr: )?[[0-9]*\.]*/)
-            .reject do |i|
-              i.include?('127.0.0.1') || i.include?('172.17.0.1') || i.empty?
+            .map{ |x| x.split(" ")[-1]}
+            .collect do |i|
+              i if !['127.0.0.1', '172.17.0.1'].include?(i) && !i.empty?
             end
-    ips[0].split(' ')[-1]
+    ips.compact
   end
 end
