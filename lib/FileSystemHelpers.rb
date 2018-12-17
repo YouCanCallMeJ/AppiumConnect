@@ -22,7 +22,7 @@ def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, hubPo
                               platformName: platform,
                               version: os_ver
                             },
-                            { browserName: browser,
+                            { browserName: "mobile_#{browser}",
                               maxInstances: 1,
                               deviceName: set_device_name(brand, model),
                               seleniumProtocol: 'WebDriver',
