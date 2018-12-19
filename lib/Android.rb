@@ -4,27 +4,27 @@ end
 
 def get_android_version(udid)
   command = "adb  -s #{udid} shell getprop ro.build.version.release"
-  `#{command}`
+  `#{command}`.strip
 end
 
 def get_device_osv udid
   command = "adb  -s #{udid} shell getprop ro.build.version.sdk"
-  `#{command}`
+  `#{command}`.strip
 end
 
 def get_device_model udid
   command = "adb  -s #{udid} shell getprop ro.product.model"
-  `#{command}`
+  `#{command}`.strip
 end
 
 def get_device_build udid
   command = "adb  -s #{udid} shell getprop ro.build.display.id"
-  `#{command}`
+  `#{command}`.strip
 end
 
 def get_device_brand udid
   command = "adb  -s #{udid} shell getprop ro.product.brand"
-  `#{command}`
+  `#{command}`.strip
 end
 
 def restart_devices
@@ -36,7 +36,7 @@ def restart_devices
 end
 
 def get_device_phone_number(udid)
-  brand = get_device_brand(udid).strip
+  brand = get_device_brand(udid).strip.downcase
   cmd = case brand
         when 'google'
           12
@@ -44,6 +44,8 @@ def get_device_phone_number(udid)
           13
         when 'huawei'
           14
+        when 'samsung'
+          find_samsung_digits(udid)
         else
           19
         end
@@ -51,4 +53,9 @@ def get_device_phone_number(udid)
     .split("\n").join.split("'")
     .collect{|x| x if x.include?('.')}.compact
     .join.delete('.+')[1..-1]&.strip
+end
+
+def find_samsung_digits(udid)
+  ver = get_android_version(udid)
+  Gem::Version.new(ver) >= Gem::Version.new('9.0.0') ? 13 : 19
 end
