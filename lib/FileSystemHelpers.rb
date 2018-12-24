@@ -51,14 +51,12 @@ def create_dir(name)
 end
 
 def set_browser_name(brand, model, udid)
-  manu = brand.capitalize
-  name = manu + "_" + model
-  name.gsub(" ", "_")
+  name = set_device_name(brand, model)
   name + "_" + udid
 end
 
 def set_device_name(brand, model)
   manu = brand.capitalize
-  name = manu + "_" + model
+  name = manu.strip + "_" + model.strip
   name.gsub(" ", "_")
 end
