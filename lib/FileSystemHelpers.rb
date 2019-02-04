@@ -18,7 +18,7 @@ def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, hubPo
                               maxInstances: 1,
                               platform: platform,
                               deviceName: set_device_name(brand, model),
-                              applicationName: model,
+                              applicationName: udid,
                               platformName: platform,
                               version: os_ver
                             },
