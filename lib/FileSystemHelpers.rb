@@ -34,7 +34,7 @@ def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, hubPo
                    timeout: 299000,
                    registerCycle: 5000,
                    proxy: "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
-                   custom: { "phoneNumber": number, "buildNumber": build, "deviceType": "mobile" },
+                   custom: { "phoneNumber": number, "buildNumber": build, "deviceType": get_device_type(udid) },
                    url: "http://#{ip}:#{appium_port}/wd/hub",
                    host: ip,
                    port: appium_port,
@@ -59,4 +59,8 @@ def set_device_name(brand, model)
   manu = brand.capitalize
   name = manu.strip + "_" + model.strip
   name.gsub(" ", "_")
+end
+
+def get_device_type(udid)
+  udid.to_s.include?(':') ? 'tv' : 'mobile'
 end
