@@ -9,7 +9,7 @@ def get_platform()
   end
 end
 
-def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, hubPort, platform, browser, os_ver, build, model, brand, number)
+def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, hubPort, platform, browser, os_ver, build, software, model, brand, number, chipset, imei)
   f = File.new(nodeDir + "/node_configs/#{file_name}", "w")
 
   f.write( JSON.generate({ capabilities: [
@@ -34,7 +34,16 @@ def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, hubPo
                    timeout: 299000,
                    registerCycle: 5000,
                    proxy: "org.openqa.grid.selenium.proxy.DefaultRemoteProxy",
-                   custom: { "phoneNumber": number, "buildNumber": build, "deviceType": get_device_type(udid) },
+                   custom: {
+                     "phoneNumber": number,
+                     "buildNumber": build,
+                     "softwareNumber": software,
+                     "deviceType": get_device_type(udid),
+                     "manufacturer": brand,
+                     "model": model,
+                     "chipset": chipset,
+                     "imei": imei
+                   },
                    url: "http://#{ip}:#{appium_port}/wd/hub",
                    host: ip,
                    port: appium_port,
