@@ -18,13 +18,31 @@ def get_device_model udid
 end
 
 def get_device_build udid
-  command = "adb  -s #{udid} shell getprop ro.build.display.id"
+  command = "adb -s #{udid} shell getprop ro.build.display.id"
+  `#{command}`.strip
+end
+
+def get_device_software udid
+  command = "adb -s #{udid} shell getprop ro.build.version.incremental"
   `#{command}`.strip
 end
 
 def get_device_brand udid
   command = "adb  -s #{udid} shell getprop ro.product.brand"
   `#{command}`.strip
+end
+
+def get_device_chipset udid
+  chipname_command = "adb -s #{udid} shell getprop ro.chipname"
+  hardware_command = "adb -s #{udid} shell getprop ro.hardware.chipname"
+  chipname = `#{chipname_command}`.strip
+  hardware = `#{hardware_command}`.strip
+  chipname.empty? ? hardware : chipname
+end
+
+def get_device_imei udid
+  command = "adb -s #{udid} shell service call iphonesubinfo 1"
+  `#{command}`.lines.map{ |x| x.split("'")[1] }.join.gsub(/\.| /, '')
 end
 
 def restart_devices

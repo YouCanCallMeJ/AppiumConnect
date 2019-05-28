@@ -80,10 +80,13 @@ def connect_android_devices(ip, hubIp, hubPort, nodeDir, devices, foreground, ho
       sdkv = get_device_osv(devices[index]['udid']).strip.to_i
       os_ver = get_android_version(devices[index]['udid']).strip
       build = get_device_build(devices[index]['udid']).strip
+      software = get_device_software(devices[index]['udid'])
       model = get_device_model(devices[index]['udid']).strip
       brand = get_device_brand(devices[index]['udid']).strip
       number = get_device_phone_number(devices[index]['udid'])
-      generate_node_config(nodeDir, config_name, devices[index]["udid"], port, ip, hubIp, hubPort, 'android', 'chrome', os_ver, build, model, brand, number)
+      chipset = get_device_chipset(devices[index]['udid'])
+      imei = get_device_imei(devices[index]['udid'])
+      generate_node_config(nodeDir, config_name, devices[index]["udid"], port, ip, hubIp, hubPort, 'android', 'chrome', os_ver, build, software, model, brand, number, chipset, imei)
       appium_server_start(config: node_config, port: port, bp: bp, udid: devices[index]["udid"], log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"], cp: cp, config_dir: nodeDir, foreground: foreground)
     end
   end
@@ -115,9 +118,11 @@ def connect_ios_devices(ip, hubIp, hubPort, nodeDir, devices, foreground, host_p
       next if details.nil?
       os_ver = details["os_ver"]
       build = details["build"]
+      software = details["software"]
       model = details["model"]
       number = details["number"]
-      generate_node_config(nodeDir, config_name, udid, port, ip, hubIp, hubPort, 'IOS', 'safari', os_ver, build, model, 'apple', number)
+      imei = details["imei"]
+      generate_node_config(nodeDir, config_name, udid, port, ip, hubIp, hubPort, 'IOS', 'safari', os_ver, build, software, model, 'apple', number, 'NA', imei)
       node_config = nodeDir + '/node_configs/' +"#{config_name}"
       appium_server_start config: node_config, port: port, udid: udid, log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"], webkitPort: webkitPort, config_dir: nodeDir, foreground: foreground
     end

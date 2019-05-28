@@ -10,9 +10,17 @@ end
 def get_ios_details(udid)
   device = DeviceAPI::IOS.device(udid)
   model = device.model
+  imei = device.imei
   details = device.instance_variable_get('@props')
   number = details["PhoneNumber"].delete('() ').tr('-', '')[1..-1]
-  { "build" => details["BuildVersion"], "os_ver" => details["ProductVersion"], "model" => model, "number" => number }
+  {
+    "build" => details["BuildVersion"],
+    "software" => details["BuildVersion"],
+    "os_ver" => details["ProductVersion"],
+    "model" => model,
+    "number" => number,
+    "imei" => imei
+  }
 rescue
   nil
 end
