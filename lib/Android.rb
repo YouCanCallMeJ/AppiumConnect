@@ -37,7 +37,8 @@ def get_device_chipset udid
   hardware_command = "adb -s #{udid} shell getprop ro.hardware.chipname"
   chipname = `#{chipname_command}`.strip
   hardware = `#{hardware_command}`.strip
-  chipname.empty? ? hardware : chipname
+  val = chipname.empty? ? hardware : chipname
+  val.empty? ? 'not_found' : val
 end
 
 def get_device_imei udid
