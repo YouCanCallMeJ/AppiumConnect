@@ -68,10 +68,12 @@ def get_device_phone_number(udid)
         else
           19
         end
-  `adb -s #{udid} shell service call iphonesubinfo #{cmd}`
+  num = `adb -s #{udid} shell service call iphonesubinfo #{cmd}`
     .split("\n").join.split("'")
     .collect{|x| x if x.include?('.')}.compact
     .join.delete('.+')[1..-1]&.strip
+  
+  num.nil? ? 'not_found' : num
 end
 
 def find_samsung_digits(udid)
