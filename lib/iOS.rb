@@ -12,15 +12,18 @@ def get_ios_details(udid)
   model = device.model
   imei = device.imei
   details = device.instance_variable_get('@props')
-  number = details["PhoneNumber"].delete('() ').tr('-', '')[1..-1]
+  number = details["PhoneNumber"]
+  number = number.nil? ? nil : number.delete('() ').tr('-', '')[1..-1]
   {
-    "build" => details["BuildVersion"],
-    "software" => details["BuildVersion"],
-    "os_ver" => details["ProductVersion"],
-    "model" => model,
-    "number" => number,
-    "imei" => imei
+    "build" => details["BuildVersion"] || not_found(:build),
+    "software" => details["BuildVersion"] || not_found(:software),
+    "os_ver" => details["ProductVersion"] || not_found(:os_ver),
+    "model" => model || not_found(:model),
+    "number" => number || not_found(:number),
+    "imei" => imei || not_found(:imei)
   }
-rescue
-  nil
+end
+
+def not_found(type)
+  "no #{type.to_s} found"
 end
