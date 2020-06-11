@@ -61,6 +61,8 @@ def get_device_phone_number(udid)
           12
         when 'blackberry'
           13
+        when 'lge'
+          13
         when 'huawei'
           14
         when 'samsung'
@@ -78,5 +80,5 @@ end
 
 def find_samsung_digits(udid)
   ver = get_android_version(udid)
-  Gem::Version.new(ver) >= Gem::Version.new('9.0.0') ? 13 : 19
+  Gem::Version.new(ver) == Gem::Version.new('9.0.0') ? 13 : 19
 end
