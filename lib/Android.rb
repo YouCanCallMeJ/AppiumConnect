@@ -58,7 +58,7 @@ def get_device_phone_number(udid)
   brand = get_device_brand(udid).strip.downcase
   cmd = case brand
         when 'google'
-          12
+          find_google_digits(udid)
         when 'blackberry'
           13
         when 'lge'
@@ -81,4 +81,9 @@ end
 def find_samsung_digits(udid)
   ver = get_android_version(udid)
   Gem::Version.new(ver) == Gem::Version.new('9.0.0') ? 13 : 19
+end
+
+def find_google_digits(udid)
+  ver = get_android_version(udid)
+  Gem::Version.new(ver) == Gem::Version.new('11') ? 15 : 12
 end
