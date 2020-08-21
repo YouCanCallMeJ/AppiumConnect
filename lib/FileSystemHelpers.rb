@@ -14,7 +14,7 @@ def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, hubPo
 
   f.write( JSON.generate({ capabilities: [
                             { udid: udid,
-                              browserName: set_browser_name(brand, model, udid),
+                              browserName: udid,
                               maxInstances: 1,
                               platform: platform,
                               deviceName: set_device_name(brand, model),
@@ -22,7 +22,7 @@ def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, hubPo
                               platformName: platform,
                               version: os_ver
                             },
-                            { browserName: "mobile_#{browser}",
+                            { browserName: udid,
                               maxInstances: 1,
                               deviceName: set_device_name(brand, model),
                               seleniumProtocol: 'WebDriver',
