@@ -63,6 +63,8 @@ def get_device_phone_number(udid)
           13
         when 'lge'
           13
+        when 'motorola'
+          13
         when 'huawei'
           14
         when 'samsung'
