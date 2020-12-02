@@ -82,7 +82,13 @@ end
 
 def find_samsung_digits(udid)
   ver = get_android_version(udid)
-  Gem::Version.new(ver) == Gem::Version.new('9.0.0') ? 13 : 19
+  if Gem::Version.new(ver) == Gem::Version.new('9.0.0')
+    13
+  elsif Gem::Version.new(ver) == Gem::Version.new('11')
+    16
+  else
+    19
+  end
 end
 
 def find_google_digits(udid)
