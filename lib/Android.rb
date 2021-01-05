@@ -62,7 +62,7 @@ def get_device_phone_number(udid)
         when 'blackberry'
           13
         when 'lge'
-          13
+          find_lge_digits(udid)
         when 'motorola'
           13
         when 'huawei'
@@ -78,6 +78,15 @@ def get_device_phone_number(udid)
     .join.delete('.+')[1..-1]&.strip
   
   num.nil? ? 'not_found' : num
+end
+
+def find_lge_digits(udid)
+  ver = get_android_version(udid)
+  if Gem::Version.new(ver) == Gem::Version.new('9')
+    14
+  else
+    13
+  end
 end
 
 def find_samsung_digits(udid)
