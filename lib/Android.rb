@@ -55,52 +55,14 @@ def restart_devices
 end
 
 def get_device_phone_number(udid)
-  brand = get_device_brand(udid).strip.downcase
-  cmd = case brand
-        when 'google'
-          find_google_digits(udid)
-        when 'blackberry'
-          13
-        when 'lge'
-          find_lge_digits(udid)
-        when 'motorola'
-          13
-        when 'huawei'
-          14
-        when 'samsung'
-          find_samsung_digits(udid)
-        else
-          19
-        end
-  num = `adb -s #{udid} shell service call iphonesubinfo #{cmd}`
-    .split("\n").join.split("'")
-    .collect{|x| x if x.include?('.')}.compact
-    .join.delete('.+')[1..-1]&.strip
-  
-  num.nil? ? 'not_found' : num
-end
-
-def find_lge_digits(udid)
-  ver = get_android_version(udid)
-  if Gem::Version.new(ver) == Gem::Version.new('9')
-    14
-  else
-    13
+  cmds = (10..20)
+  num = cmds.each do |cmd|
+    val = `adb -s #{udid} shell service call iphonesubinfo #{cmd}`
+          .split("\n").join.split("'")
+          .collect{|x| x if x.include?('.')}.compact
+          .join.delete('.+')[1..-1]&.strip
+    return val if !val.nil? && val.chars.size == 10
+    next
   end
-end
-
-def find_samsung_digits(udid)
-  ver = get_android_version(udid)
-  if Gem::Version.new(ver) == Gem::Version.new('9.0.0')
-    13
-  elsif Gem::Version.new(ver) == Gem::Version.new('11')
-    16
-  else
-    19
-  end
-end
-
-def find_google_digits(udid)
-  ver = get_android_version(udid)
-  Gem::Version.new(ver) == Gem::Version.new('11') ? 15 : 12
+  'not_found'
 end
