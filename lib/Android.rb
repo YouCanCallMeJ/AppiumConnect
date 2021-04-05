@@ -56,7 +56,7 @@ end
 
 def get_device_phone_number(udid)
   cmds = (10..20)
-  num = cmds.each do |cmd|
+  cmds.each do |cmd|
     val = `adb -s #{udid} shell service call iphonesubinfo #{cmd}`
           .split("\n").join.split("'")
           .collect{|x| x if x.include?('.')}.compact
