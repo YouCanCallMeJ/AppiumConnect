@@ -35,7 +35,7 @@ end
 def marketing_name udid
   command = "adb  -s #{udid} shell dumpsys bluetooth_manager | \grep 'name:' | cut -c9-"
   name = `#{command}`.strip
-  "#{get_device_brand(udid)} #{name}"
+  "#{get_device_brand(udid).capitalize} #{name}"
 end
 
 def get_device_chipset udid
