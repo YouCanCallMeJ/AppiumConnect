@@ -24,7 +24,7 @@ def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, hubPo
                             },
                             { browserName: udid,
                               maxInstances: 1,
-                              deviceName: set_device_name(brand, model),
+                              deviceName: set_device_name(brand, model, name),
                               seleniumProtocol: 'WebDriver',
                               udid: udid,
                               platform: platform,
