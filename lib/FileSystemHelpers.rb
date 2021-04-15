@@ -9,7 +9,7 @@ def get_platform()
   end
 end
 
-def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, hubPort, platform, browser, os_ver, build, software, model, brand, number, chipset, imei)
+def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, hubPort, platform, browser, os_ver, build, software, model, name, brand, number, chipset, imei)
   f = File.new(nodeDir + "/node_configs/#{file_name}", "w")
 
   f.write( JSON.generate({ capabilities: [
@@ -17,7 +17,7 @@ def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, hubPo
                               browserName: udid,
                               maxInstances: 1,
                               platform: platform,
-                              deviceName: set_device_name(brand, model),
+                              deviceName: set_device_name(brand, model, name),
                               applicationName: udid,
                               platformName: platform,
                               version: os_ver
@@ -64,7 +64,8 @@ def set_browser_name(brand, model, udid)
   name + "_" + udid
 end
 
-def set_device_name(brand, model)
+def set_device_name(brand, model, name)
+  return name if !name == ""
   manu = brand.capitalize
   name = manu.strip + "_" + model.strip
   name.gsub(" ", "_")
