@@ -32,6 +32,12 @@ def get_device_brand udid
   `#{command}`.strip
 end
 
+def marketing_name udid
+  command = "adb  -s #{udid} shell dumpsys bluetooth_manager | \grep 'name:' | cut -c9-"
+  name = `#{command}`.strip
+  "#{get_device_brand(udid)} #{name}"
+end
+
 def get_device_chipset udid
   chipname_command = "adb -s #{udid} shell getprop ro.chipname"
   hardware_command = "adb -s #{udid} shell getprop ro.hardware.chipname"
