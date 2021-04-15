@@ -123,7 +123,7 @@ def connect_ios_devices(ip, hubIp, hubPort, nodeDir, devices, foreground, host_p
       model = details["model"]
       number = details["number"]
       imei = details["imei"]
-      generate_node_config(nodeDir, config_name, udid, port, ip, hubIp, hubPort, 'IOS', 'safari', os_ver, build, software, model, 'apple', number, 'NA', imei)
+      generate_node_config(nodeDir, config_name, udid, port, ip, hubIp, hubPort, 'IOS', 'safari', os_ver, build, software, model, "", 'apple', number, 'NA', imei)
       node_config = nodeDir + '/node_configs/' +"#{config_name}"
       appium_server_start config: node_config, port: port, udid: udid, log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"], webkitPort: webkitPort, config_dir: nodeDir, foreground: foreground
     end
