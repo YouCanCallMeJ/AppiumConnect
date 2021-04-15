@@ -83,10 +83,11 @@ def connect_android_devices(ip, hubIp, hubPort, nodeDir, devices, foreground, ho
       software = get_device_software(devices[index]['udid'])
       model = get_device_model(devices[index]['udid']).strip
       brand = get_device_brand(devices[index]['udid']).strip
+      name = marketing_name(devices[index]['udid']).strip
       number = get_device_phone_number(devices[index]['udid'])
       chipset = get_device_chipset(devices[index]['udid'])
       imei = get_device_imei(devices[index]['udid'])
-      generate_node_config(nodeDir, config_name, devices[index]["udid"], port, ip, hubIp, hubPort, 'android', 'chrome', os_ver, build, software, model, brand, number, chipset, imei)
+      generate_node_config(nodeDir, config_name, devices[index]["udid"], port, ip, hubIp, hubPort, 'android', 'chrome', os_ver, build, software, model, name, brand, number, chipset, imei)
       appium_server_start(config: node_config, port: port, bp: bp, udid: devices[index]["udid"], log: "appium-#{devices[index]["udid"]}.log", tmp: devices[index]["udid"], cp: cp, config_dir: nodeDir, foreground: foreground)
     end
   end
