@@ -26,6 +26,7 @@ def appium_server_start(**options)
   command << " --tmp /tmp/#{options[:tmp]}" if options.key?(:tmp)
   command << " --chromedriver-port #{options[:cp]}" if options.key?(:cp)
   command << " --relaxed-security"
+  command << " --session-override"
 
   Dir.chdir('.') {
     if options[:foreground] == true
