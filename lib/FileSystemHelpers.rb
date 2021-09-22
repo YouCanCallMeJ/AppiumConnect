@@ -1,4 +1,3 @@
-
 def get_platform()
   if Gem::Platform.local.os == 'darwin'
     return :mac
@@ -38,7 +37,7 @@ def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, hubPo
                      "phoneNumber": number,
                      "buildNumber": build,
                      "softwareNumber": software,
-                     "deviceType": get_device_type(udid),
+                     "deviceType": get_device_type(udid, platform),
                      "manufacturer": brand,
                      "model": model,
                      "chipset": chipset,
@@ -71,6 +70,19 @@ def set_device_name(brand, model)
   name.gsub(" ", "_")
 end
 
-def get_device_type(udid)
-  udid.to_s.include?(':') ? 'tv' : 'mobile'
+def get_device_type(udid, platform)
+  platform == "android" ? get_type_android(udid) : 'mobile'
+end
+
+def get_type_android(udid)
+  output = `adb -s #{udid} shell getprop ro.build.characteristics`
+  if output.include?('tv')
+    'tv'
+  elsif output.include?('tablet')
+    'tablet'
+  elsif output.include?('mbx')
+    'mbox'
+  else
+    'mobile'
+  end
 end
