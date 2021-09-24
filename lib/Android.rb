@@ -28,8 +28,23 @@ def get_device_software udid
 end
 
 def get_device_brand udid
+  device_type = get_type(udid) 
   command = "adb  -s #{udid} shell getprop ro.product.brand"
-  `#{command}`.strip
+  output = `#{command}`.strip
+  output == 'tablet' ? "#{output}Tablet" : output
+end
+
+def get_type(udid)
+  output = `adb -s #{udid} shell getprop ro.build.characteristics`
+  if output.include?('tv')
+    'tv'
+  elsif output.include?('tablet')
+    'tablet'
+  elsif output.include?('mbx')
+    'mbox'
+  else
+    'mobile'
+  end
 end
 
 def marketing_name udid
