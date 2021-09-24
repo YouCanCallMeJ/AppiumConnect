@@ -65,7 +65,7 @@ def set_browser_name(brand, model, udid)
 end
 
 def set_device_name(brand, model)
-  manu = brand.capitalize
+  manu = brand.include?('tablet') ? brand.split.map(&:capitalize).join : brand.capitalize
   name = manu.strip + "_" + model.strip
   name.gsub(" ", "_")
 end
