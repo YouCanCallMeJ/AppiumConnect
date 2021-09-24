@@ -43,7 +43,9 @@ def get_type(udid)
   elsif output.include?('mbx')
     'mbox'
   else
-    'mobile'
+    'tablet'
+    # for testing
+    # 'mobile'
   end
 end
 
