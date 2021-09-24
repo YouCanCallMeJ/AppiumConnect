@@ -42,7 +42,7 @@ def generate_node_config(nodeDir, file_name, udid, appium_port, ip, hubIp, hubPo
                      "model": model,
                      "chipset": chipset,
                      "imei": imei,
-                     "marketingName": name
+                     "marketingName": get_marketing_name(name)
                    },
                    url: "http://#{ip}:#{appium_port}/wd/hub",
                    host: ip,
@@ -85,4 +85,8 @@ def get_type_android(udid)
   else
     'mobile'
   end
+end
+
+def get_marketing_name(name)
+  name.gsub('tablet ', '')
 end
