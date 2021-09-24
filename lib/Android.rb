@@ -31,7 +31,7 @@ def get_device_brand udid
   device_type = get_type(udid) 
   command = "adb  -s #{udid} shell getprop ro.product.brand"
   output = `#{command}`.strip
-  output == 'tablet' ? "#{output}Tablet" : output
+  device_type == 'tablet' ? "#{output}Tablet" : output
 end
 
 def get_type(udid)
