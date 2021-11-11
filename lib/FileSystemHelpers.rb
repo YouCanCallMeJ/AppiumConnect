@@ -88,6 +88,6 @@ def get_type_android(udid)
 end
 
 def get_marketing_name(name, brand, model)
-  return model if brand.lowercase == 'apple'
+  return model if brand.downcase == 'apple'
   name.gsub('tablet ', '')
 end
