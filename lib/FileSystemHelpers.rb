@@ -82,6 +82,8 @@ def get_type_android(udid)
     'tablet'
   elsif output.include?('mbx')
     'mbox'
+  elsif output.include?('watch')
+    'watch'
   else
     'mobile'
   end

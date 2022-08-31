@@ -42,6 +42,8 @@ def get_type(udid)
     'tablet'
   elsif output.include?('mbx')
     'mbox'
+  elsif output.include?('watch')
+    'watch'
   else
     'mobile'
   end
